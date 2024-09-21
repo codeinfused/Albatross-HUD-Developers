@@ -1,0 +1,41 @@
+{
+  "name": "albatross-hud-developers",
+  "version": "2.4.4",
+  "description": "DU Albatross HUD Developer Version",
+  "main": "src/unit.start.lua",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && echo \"Another line?\" && echo \"Okay then\"",
+    "build:all": "npm run build:library && npm run build:unit && npm run yaml:compile",
+
+    "build:library-old": "npm run build:library.start && concat-cli -f build/library-start.yml -o build/library-start-m.yml && npm run yaml:library.start",
+    "build:library": "npm run build:library.start && luamin -f build/library-start.yml > build/library-start-m.yml && npm run yaml:library.start",
+    "build:unit": "npm run build:unit.start && concat-cli -f build/unit-start.yml -o build/unit-start-m.yml && npm run yaml:unit.start && npm run build:unit.stop && luamin -f build/unit-stop.yml > build/unit-stop-m.yml && npm run yaml:unit.stop",
+    "build:unit-start-old": "&& luamin -f build/unit-start.yml > build/unit-start-m.yml",
+    
+    "build:library.start": "concat-cli -f src/general-locals.lua -f src/library-common.lua -f src/library-controller.lua -f src/library-executor.lua -f src/library-keyactions.lua -f src/library-template.lua -f src/library-commands.lua -f src/library-throttle.lua -f src/library-flight.lua -f src/library-brakes.lua -f src/library-hovers.lua -f src/library-groundmode.lua -f src/library-agg.lua -f src/library-fuel.lua -f src/library-gear.lua -f src/library-stabilize.lua -f src/library-hud.lua -f src/library-atlas.lua -f src/library-autopilot.lua -f src/library-warp.lua -f src/library-warnings.lua -f src/library-genericbuttons.lua -o build/library-start.yml",
+    "build:unit.start": "concat-cli -f src/unit-start.lua -o build/unit-start.yml",
+    "build:unit.stop": "concat-cli -f src/unit-stop.lua -o build/unit-stop.yml",
+    
+    "yaml:library.start": "type build\\library-start-m.yml | indent-string --count=2 > build/library.start.yml && concat-cli -f src/general-yaml.yml -f build/library.start.yml -o build/library.start.yml",
+    "yaml:unit.start": "type build\\unit-start-m.yml | indent-string --count=2 > build/unit.start.yml && concat-cli -f src/general-yaml.yml -f build/unit.start.yml -o build/unit.start.yml",
+    "yaml:unit.stop": "type build\\unit-stop-m.yml | indent-string --count=2 > build/unit.stop.yml && concat-cli -f src/general-yaml.yml -f build/unit.stop.yml -o build/unit.stop.yml",
+    "yaml:compile": "yc yaml/hud_template.conf > build/ais_albatross_hud_2_4_4.conf"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codeinfused/Albatross-HUD-Developers.git"
+  },
+  "author": "CodeInfused",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codeinfused/Albatross-HUD-Developers/issues"
+  },
+  "dependencies": {
+    "concat-cli": "4.0.0",
+    "indent-string-cli": "3.0.0",
+    "luabundler": "1.2.2",
+    "luamin": "1.0.4",
+    "yaml-compiler": "0.0.6",
+    "yaml-import": "2.0.0"
+  }
+}
